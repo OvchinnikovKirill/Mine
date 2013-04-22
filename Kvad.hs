@@ -42,8 +42,8 @@ func (Leaf k) = (foldl iKD (Node (srednArifm k) e e e e) k) where e = Leaf []
 --iKD1 (x:xs) a = (Pair x a):(iKD1 xs a)
 --Up Down Right Left
 
-iKD (Leaf k) (Kord a b c) =  if ((length[k]+1)<3) then (Leaf ((Kord a b c):k)) 
-												   else (func (Leaf ((Kord a b c):k)))
+iKD (Leaf k) (Kord a b c) =  if (((length k)+1)<5) then (Leaf ((Kord a b c) : k)) 
+												   else (func (Leaf ((Kord a b c) : k)))
 																   	
 iKD (Node (Kord x y a1) c1 c2 c3 c4 ) (Kord x1 y1 a2) = if ((x1<x)&&(y1>y)) then (Node(Kord x y a1) (iKD c1 (Kord x1 y1 a2)) c2 c3 c4 )
 															 else (if ((x1>x)&&(y1>y)) then (Node(Kord x y a1) c1 (iKD c2 (Kord x1 y1 a2)) c3 c4 )

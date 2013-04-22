@@ -88,23 +88,25 @@ setgor i outh = do
 listToKord [] = (Kord 9999.9999 9999.9999 "ololo")
 listToKord (a:b:c:[]) = (Kord (read a::Float) (read b::Float) c)
 
-infa (x:xs) a 2 = (iKD (a) (Kord 0.0 0.0 "Gorod101"))
+infa (x:xs) a 101 = (iKD (a) (Kord 0.0 0.0 "Gorod101"))
 infa [] a i = a		
 infa (x:xs) a i = do
-		let x2 = x
-		let e = splitOn " " x2
+		--let x2 = x
+		let e = splitOn " " x
 		let f = listToKord e
 		--let f = parseKord x2
-		let b = (iKD (a) (f))
-		infa xs b (i+1)
+		--let b = (iKD (a) (f))
+		infa xs (iKD (a) (f)) (i+1)
 
 
 printKord [] = putStrLn (" Leaf")
 printKord ((Kord a b c):xs) = do
-			putStr((show a)++" "++(show b)++" "++c++" "++(show (length[((Kord a b c):xs)]))++" ")
+			putStr((show a)++" "++(show b)++" "++c++" ")
 			printKord xs
 		
-printKD (Leaf k) = printKord k
+printKD (Leaf k) = do
+		--putStr(show(length k))
+		printKord k
 printKD (Node (Kord x y a1) c1 c2 c3 c4 ) = do
 		putStrLn("Node "++(show x)++" "++(show y)++" "++a1)
 		printKD c1
