@@ -23,6 +23,7 @@ import Data.List.Split
 		--space
 		--c<-String
 		--return(Kord a b c)
+data Bomb = Bomb {absc::Float,ord::Float,rad::Float}
 		
 makeKord ::  Kord
 makeKord = (Kord (read "0.12131" :: Float) (read "123123.1231" :: Float) "Gorog 1123")
@@ -84,6 +85,7 @@ setgor i outh = do
 		
 --letters = oneOf(['a'..'z'] ++ ['A'..'Z']++['0'..'9'])
 --numbers = oneOf ['0'..'9'] ++ ['.']
+listToBomb (a:b:c:[]) = (Bomb (read a::Float) (read b::Float) (read c::Float))
 
 listToKord [] = (Kord 9999.9999 9999.9999 "ololo")
 listToKord (a:b:c:[]) = (Kord (read a::Float) (read b::Float) c)
@@ -123,8 +125,18 @@ printKD (Node (Kord x y a1) c1 c2 c3 c4 ) = do
 		--case(parse koord "some text" x) of
 		--Left err -> putStr "Parse error: " >> print err
 		--Right b  -> iKD (a) (b)
- 		
-
+--bomb :: IO String -> Kord		
+bomb a = do
+		let d1 = splitOn " " a
+		listToBomb d1
+--poiskDestr [] = 
+poiskBomb (Leaf []) b = putStr("")
+poiskBomb (Leaf ((Kord a b c):xs)) (Bomb a1 a2 a3)= if (sqrt(abs(a-a1)^2+(abs(b-a2)^2))<a3) then (putStrLn(c++" DESTROYED ON "++(show ((100*sqrt(abs(a-a1)^2+(abs(b-a2)^2)))/a3))++"%")) else (poiskBomb (Leaf xs) (Bomb a1 a2 a3)) 
+poiskBomb (Node (Kord x y a1) c1 c2 c3 c4)  b = do
+		poiskBomb c1 b
+		poiskBomb c2 b
+		poiskBomb c3 b
+		poiskBomb c4 b
 		
 main::IO () 
 main = do 
@@ -133,6 +145,7 @@ main = do
 		--hClose inh
 		hClose outh
 		run
+		
 
 run = do
 		inh <- readFile "file.out"
@@ -141,8 +154,12 @@ run = do
 		--print(parseLine x)
 		--print(splitOn " " x)
 		let c = infa (x:xs) a 1
-		printKD c
-		return ()
+		line <- getLine
+		--let d3 = bomb d
+		--let c1 = iKD (c) d3
+		--printKD (iKD (c) (bomb line))
+		poiskBomb (c) (bomb line)
+		--return ()
 
 --operate :: String
 --operate = "aaa"
