@@ -131,7 +131,9 @@ bomb a = do
 		listToBomb d1
 --poiskDestr [] = 
 poiskBomb (Leaf []) b = putStr("")
-poiskBomb (Leaf ((Kord a b c):xs)) (Bomb a1 a2 a3)= if (sqrt(abs(a-a1)^2+(abs(b-a2)^2))<a3) then (putStrLn(c++" DESTROYED ON "++(show ((100*sqrt(abs(a-a1)^2+(abs(b-a2)^2)))/a3))++"%")) else (poiskBomb (Leaf xs) (Bomb a1 a2 a3)) 
+poiskBomb (Leaf ((Kord a b c):xs)) (Bomb a1 a2 a3)= do
+		if (sqrt(abs(a-a1)^2+(abs(b-a2)^2))<a3) then (putStrLn(c++" DESTROYED ON "++(show ((100-(100*sqrt(abs(a-a1)^2+(abs(b-a2)^2)))/a3)))++"%")) else (putStr(""))
+		poiskBomb (Leaf xs) (Bomb a1 a2 a3)
 poiskBomb (Node (Kord x y a1) c1 c2 c3 c4)  b = do
 		poiskBomb c1 b
 		poiskBomb c2 b
@@ -154,6 +156,7 @@ run = do
 		--print(parseLine x)
 		--print(splitOn " " x)
 		let c = infa (x:xs) a 1
+		--printKD c
 		line <- getLine
 		--let d3 = bomb d
 		--let c1 = iKD (c) d3
